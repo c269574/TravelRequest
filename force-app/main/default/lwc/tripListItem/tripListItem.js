@@ -41,7 +41,7 @@ export default class TripListItem extends LightningElement {
             .then(result => {
                 this.dispatchEvent(new CustomEvent('refresh', { bubbles: true }));
                 const eventNew = new ShowToastEvent({
-                    title: 'Success', variant: 'success', result
+                    title: 'Success', variant: 'success', message: result
                 });
                 this.dispatchEvent(eventNew);
             })
