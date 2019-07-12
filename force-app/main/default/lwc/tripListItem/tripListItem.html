@@ -1,0 +1,40 @@
+<template>
+    <lightning-card icon-name="utility:case" title={record.Name}>
+        <p>Passenger: {record.Trip_Name__c}</p>
+        <p>Status: {record.Trip_Status__c}</p>
+        <template if:false={isDraft}>
+            <p>Sent: {record.Trip_SendDate__c}</p>
+        </template>
+        <lightning-layout class="slds-m-around_small">
+            <lightning-layout-item flexibility="auto">
+                <lightning-button-icon icon-name="utility:salesforce1" onclick={openLinkHandler}
+                    alternative-text="Open request (SF)">
+                </lightning-button-icon>
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="auto">
+                <lightning-button-icon icon-name="utility:delete" onclick={deleteHandler} data-id={record.Id}
+                    alternative-text="Delete request">
+                </lightning-button-icon>
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="auto">
+                <lightning-button-icon icon-name="utility:info" onclick={openHandler} data-id={record.Id}
+                    alternative-text="Open details">
+                </lightning-button-icon>
+            </lightning-layout-item>
+            <template if:true={isDraft}>
+                <lightning-layout-item flexibility=" auto">
+                    <lightning-button-icon icon-name="utility:send" onclick={sendHandler} data-id={record.Id}
+                        alternative-text="Send to the manager for approval">
+                    </lightning-button-icon>
+                </lightning-layout-item>
+            </template>
+            <template if:false={isDraft}>
+                <lightning-layout-item flexibility="auto">
+                    <lightning-button-icon icon-name="utility:undo" onclick={returnHandler} data-id={record.Id}
+                        alternative-text="Return to draft">
+                    </lightning-button-icon>
+                </lightning-layout-item>
+            </template>
+        </lightning-layout>
+    </lightning-card>
+</template>

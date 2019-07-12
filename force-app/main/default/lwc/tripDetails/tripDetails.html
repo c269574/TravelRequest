@@ -1,0 +1,193 @@
+<template>
+    <article class="slds-card">
+        <div class="slds-card__header slds-grid">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__figure">
+                    <lightning-icon icon-name="utility:info"></lightning-icon>
+                </div>
+                <div class="slds-media__body">
+                    <h2 class="slds-card__header-title"> Travel Details </h2>
+                </div>
+            </header>
+        </div>
+        <template if:false={record}>
+            <hr>
+            <div class="slds-text-color_weak slds-m-around_medium">Choose travel request to view details.</div>
+        </template>
+        <template if:true={record}>
+            <div class="slds-m-around_medium">
+                <!--                    -->
+                <!--    VIEW LAYOUT:   -->
+                <!--                    -->
+                <template if:true={isSent}>
+                    <lightning-record-view-form class="slds-m-around_medium" record-id={record.Id}
+                        object-api-name="Trip__c">
+                        <lightning-output-field variant="label-stacked" field-name="Trip_Company__c">
+                        </lightning-output-field>
+                        <lightning-output-field variant="label-stacked" field-name="Trip_KodPoezdki__c">
+                        </lightning-output-field>
+                        <!-- is HCP -->
+                        <template if:true={isHCP}>
+                            <lightning-layout>
+                                <lightning-layout-item class="slds-size_1-of-2">
+                                    <lightning-output-field variant="label-stacked" field-name="Trip_EventId__c">
+                                    </lightning-output-field>
+                                </lightning-layout-item>
+                                <lightning-layout-item class="slds-size_1-of-2">
+                                    <lightning-output-field variant="label-stacked" field-name="Trip_HCPId__c">
+                                    </lightning-output-field>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </template>
+                        <!-- is GPH -->
+                        <template if:true={isGPH}>
+                            <lightning-layout>
+                                <lightning-layout-item class="slds-size_1-of-2">
+                                    <lightning-output-field variant="label-stacked" field-name="Trip_DogovorName__c">
+                                    </lightning-output-field>
+                                </lightning-layout-item>
+                                <lightning-layout-item class="slds-size_1-of-2">
+                                    <lightning-output-field variant="label-stacked" field-name="Trip_DogovorDate__c">
+                                    </lightning-output-field>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </template>
+                        <div class="slds-text-heading_small slds-m-around_medium">
+                            <lightning-icon size="small" icon-name="utility:adduser"></lightning-icon> Passenger's
+                            details:
+                        </div>
+                        <lightning-output-field variant="label-stacked" field-name="Trip_Name__c">
+                        </lightning-output-field>
+                        <lightning-output-field variant="label-stacked" field-name="Trip_City__c">
+                        </lightning-output-field>
+                        <lightning-output-field variant="label-stacked" field-name="Trip_Phone__c">
+                        </lightning-output-field>
+                        <template if:true={is3rd}>
+                            <lightning-layout>
+                                <lightning-layout-item class="slds-size_1-of-2">
+                                    <lightning-output-field variant="label-stacked" field-name="Trip_Birthdate__c">
+                                    </lightning-output-field>
+                                </lightning-layout-item>
+                                <lightning-layout-item class="slds-size_1-of-2">
+                                    <lightning-output-field variant="label-stacked" field-name="Trip_Passport__c">
+                                    </lightning-output-field>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </template>
+                        <div class="slds-text-heading_small slds-m-around_medium">
+                            <lightning-icon size="small" icon-name="utility:anchor"></lightning-icon> Travel Details:
+                        </div>
+                        <lightning-layout>
+                            <lightning-layout-item class="slds-size_1-of-2">
+                                <lightning-output-field variant="label-stacked" field-name="Trip_TipKomandirovki__c">
+                                </lightning-output-field>
+                            </lightning-layout-item>
+                            <lightning-layout-item class="slds-size_1-of-2">
+                                <lightning-output-field variant="label-stacked" field-name="Trip_CoC__c">
+                                </lightning-output-field>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                        <template if:true={isForeign}>
+                            <lightning-output-field aria-required="true" variant="label-stacked"
+                                field-name="Trip_TselKomandirovki__c">
+                            </lightning-output-field>
+                        </template>
+                        <lightning-button-group class="slds-align_absolute-center">
+                            <button style="height: 45px;" class="slds-button slds-button_neutral slds-m-around_small"
+                                onclick={closeHandler}>Cancel
+                            </button>
+                        </lightning-button-group>
+                    </lightning-record-view-form>
+                </template>
+                <!--                       -->
+                <!--    EDIT LAYOUT:       -->
+                <!--                       -->
+                <template if:true={isDraft}>
+                    <lightning-record-edit-form object-api-name="Trip__c" record-id={record.Id}
+                        onsuccess={handleSuccess}>
+                        <lightning-input-field variant="label-stacked" field-name="Trip_Company__c">
+                        </lightning-input-field>
+                        <lightning-input-field variant="label-stacked" field-name="Trip_KodPoezdki__c">
+                        </lightning-input-field>
+                        <!-- is HCP -->
+                        <template if:true={isHCP}>
+                            <lightning-layout>
+                                <lightning-layout-item class="slds-size_1-of-2">
+                                    <lightning-input-field variant="label-stacked" field-name="Trip_EventId__c">
+                                    </lightning-input-field>
+                                </lightning-layout-item>
+                                <lightning-layout-item class="slds-size_1-of-2">
+                                    <lightning-input-field variant="label-stacked" field-name="Trip_HCPId__c">
+                                    </lightning-input-field>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </template>
+                        <!-- is GPH -->
+                        <template if:true={isGPH}>
+                            <lightning-layout>
+                                <lightning-layout-item class="slds-size_1-of-2">
+                                    <lightning-input-field variant="label-stacked" field-name="Trip_DogovorName__c">
+                                    </lightning-input-field>
+                                </lightning-layout-item>
+                                <lightning-layout-item class="slds-size_1-of-2">
+                                    <lightning-input-field variant="label-stacked" field-name="Trip_DogovorDate__c">
+                                    </lightning-input-field>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </template>
+                        <div class="slds-text-heading_small slds-m-around_medium">
+                            <lightning-icon size="small" icon-name="utility:adduser"></lightning-icon> Passenger's
+                            details:
+                        </div>
+                        <lightning-input-field variant="label-stacked" field-name="Trip_Name__c">
+                        </lightning-input-field>
+                        <lightning-input-field variant="label-stacked" field-name="Trip_City__c">
+                        </lightning-input-field>
+                        <lightning-input-field variant="label-stacked" field-name="Trip_Phone__c">
+                        </lightning-input-field>
+                        <template if:true={is3rd}>
+                            <lightning-layout>
+                                <lightning-layout-item class="slds-size_1-of-2">
+                                    <lightning-input-field variant="label-stacked" field-name="Trip_Birthdate__c">
+                                    </lightning-input-field>
+                                </lightning-layout-item>
+                                <lightning-layout-item class="slds-size_1-of-2">
+                                    <lightning-input-field variant="label-stacked" field-name="Trip_Passport__c">
+                                    </lightning-input-field>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </template>
+                        <div class="slds-text-heading_small slds-m-around_medium">
+                            <lightning-icon size="small" icon-name="utility:anchor"></lightning-icon> Travel Details:
+                        </div>
+                        <lightning-layout>
+                            <lightning-layout-item class="slds-size_1-of-2">
+                                <lightning-input-field variant="label-stacked" field-name="Trip_TipKomandirovki__c">
+                                </lightning-input-field>
+                            </lightning-layout-item>
+                            <lightning-layout-item class="slds-size_1-of-2">
+                                <lightning-input-field variant="label-stacked" field-name="Trip_CoC__c">
+                                </lightning-input-field>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                        <template if:true={isForeign}>
+                            <lightning-input-field aria-required="true" variant="label-stacked"
+                                field-name="Trip_TselKomandirovki__c">
+                            </lightning-input-field>
+                        </template>
+                        <lightning-button-group class="slds-align_absolute-center">
+                            <button style="height: 45px;" class="slds-button slds-button_brand slds-m-around_small"
+                                type="submit" name="update">Update
+                            </button>
+                        </lightning-button-group>
+                    </lightning-record-edit-form>
+                    <lightning-button-group class="slds-align_absolute-center">
+                        <button style="height: 45px;" class="slds-button slds-button_neutral slds-m-around_small"
+                            onclick={closeHandler}>Cancel
+                        </button>
+                    </lightning-button-group>
+                </template>
+            </div>
+        </template>
+    </article>
+</template>

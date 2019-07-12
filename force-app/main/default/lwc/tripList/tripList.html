@@ -1,0 +1,31 @@
+<template>
+    <article class="slds-card">
+        <div class="slds-card__header slds-grid">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__figure">
+                    <lightning-icon icon-name="utility:database"></lightning-icon>
+                </div>
+                <div class="slds-media__body">
+                    <h2 class="slds-card__header-title"> My Travel Requests </h2>
+                </div>
+            </header>
+        </div>
+        <template if:true={trips.data}>
+            <hr>
+            <lightning-layout multiple-rows="true">
+                <template for:each={trips.data} for:item="trip">
+                    <lightning-layout-item size="12" small-device-size="12" medium-device-size="12"
+                        large-device-size="6" key={trip.Id} flexibility="auto" padding="around-small">
+                        <div class="custom-box slds-box   elementBack">
+                            <c-trip-list-item record={trip} onrefresh={handleUpdate}></c-trip-list-item>
+                        </div>
+                    </lightning-layout-item>
+                </template>
+            </lightning-layout>
+            <div class="slds-text-color_weak slds-m-around_medium">Total requests: {trips.data.length}</div>
+        </template>
+        <template if:true={error}>
+            {trips.error}
+        </template>
+    </article>
+</template>

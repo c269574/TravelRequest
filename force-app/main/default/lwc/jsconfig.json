@@ -1,0 +1,32 @@
+{
+    "compilerOptions": {
+        "experimentalDecorators": true,
+        "baseUrl": ".",
+        "paths": {
+            "c/pubsub": [
+                "pubsub/pubsub.js"
+            ],
+            "c/tripCreator": [
+                "tripCreator/tripCreator.js"
+            ],
+            "c/tripDetails": [
+                "tripDetails/tripDetails.js"
+            ],
+            "c/tripList": [
+                "tripList/tripList.js"
+            ],
+            "c/tripListItem": [
+                "tripListItem/tripListItem.js"
+            ]
+        }
+    },
+    "include": [
+        "**/*",
+        "../../../../.sfdx/typings/lwc/**/*.d.ts"
+    ],
+    "typeAcquisition": {
+        "include": [
+            "jest"
+        ]
+    }
+}
