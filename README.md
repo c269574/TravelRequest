@@ -1,7 +1,7 @@
 # TravelRequest. Lightning Web Components practice
 
 ## Content:
-### Apex Class - tripController.
+### Apex Class - [tripController](https://github.com/110692y/TravelRequest/blob/master/force-app/main/default/classes/tripController.cls).
 
 ### LWC:
 ### [tripCreator](https://github.com/110692y/TravelRequest/tree/master/force-app/main/default/lwc/tripCreator):
