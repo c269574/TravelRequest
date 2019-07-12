@@ -30,9 +30,6 @@ export default class TripListItem extends LightningElement {
                 this.dispatchEvent(eventNew);
             })
     }
-    openHandler2() {
-        fireEvent(this.pageRef, "opendetails", this.record.Id);
-    }
     openHandler() {
         fireEvent(this.pageRef, "opendetails", this.record);
     }
@@ -42,7 +39,7 @@ export default class TripListItem extends LightningElement {
     sendHandler() {
         sendRequest({ tripId: this.record.Id })
             .then(result => {
-                this.dispatchEvent(new CustomEvent('refresh', { bubbles: true })); // для @api record
+                this.dispatchEvent(new CustomEvent('refresh', { bubbles: true }));
                 const eventNew = new ShowToastEvent({
                     title: 'Success', variant: 'success', result
                 });
