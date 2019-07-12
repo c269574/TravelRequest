@@ -3,15 +3,15 @@
 ## Content:
 ### Apex Class - tripController.
 
-#### LWC:
-#### tripCreator:
+### LWC:
+### [tripCreator](https://github.com/110692y/TravelRequest/tree/master/force-app/main/default/lwc/tripCreator):
 > Contains lightning-record-edit-form and button to create Trip record.
 > After submitting, component fires component-to-component 'refresh' event and dispatches it to tripList component: tripList refreshes.
 
-#### tripList:
+### [tripList](https://github.com/110692y/TravelRequest/tree/master/force-app/main/default/lwc/tripList):
 > Iteration of all Trip__c records with tripListItem component.
 
-#### tripListItem (Child of tripList):
+### [tripListItem](https://github.com/110692y/TravelRequest/tree/master/force-app/main/default/lwc/tripListItem):
 > Displays passenger's name and request's status.
 > Contains 5 buttons:
 > - Open record in Salesforce (document.open*)
@@ -20,7 +20,7 @@
 > - Send record for approval (Runs 'sendRequest' apex method, on success dispatches child-to-parent 'refresh' event to tripList. tripList refreshes Apex)
 > - Return record to draft status (Runs 'returnRequest' apex method, on success dispatches child-to-parent 'refresh' event to tripList. tripList refreshes Apex)
 
-#### tripDetails:
+### [tripDetails](https://github.com/110692y/TravelRequest/tree/master/force-app/main/default/lwc/tripDetails):
 > After receiving the record from tripListItem, displays fields values:
 > - if Status = Draft => lightning-record-edit-form
 > - if Status = Sent => lightning-record-view-form
