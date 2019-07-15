@@ -6,37 +6,11 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 export default class TripDetails extends LightningElement {
     @track record;
+    @track fields = ["Trip_Company__c", "Trip_KodPoezdki__c"];
     @wire(CurrentPageReference) pageRef;
 
-    get name() {
-        return this.record.Name;
-    }
-    get status() {
-        return this.record.Trip_Status__c;
-    }
-    get code() {
-        return this.record.Trip_KodPoezdki__c;
-    }
-    get tip() {
-        return this.record.Trip_TipKomandirovki__c;
-    }
-    get isHCP() {
-        return this.code.includes("(HCP)");
-    }
-    get isGPH() {
-        return this.code.includes("ГПХ");
-    }
-    get is3rd() {
-        return this.code.includes("Треть");
-    }
-    get isForeign() {
-        return this.tip.includes("Foreign");
-    }
     get isDraft() {
-        return this.status === 'Draft';
-    }
-    get isSent() {
-        return this.status === 'Sent';
+        return this.record.Trip_Status__c === 'Draft';
     }
     connectedCallback() {
         registerListener('opendetails', this.handleEventik, this);
@@ -46,6 +20,25 @@ export default class TripDetails extends LightningElement {
     }
     handleEventik(record) {
         this.record = record;
+        if (this.record) {
+            // Assign fields conditionally
+            // If you know better practices let me know! :)
+            this.fields = ["Trip_Company__c", "Trip_KodPoezdki__c"];
+            if (this.record.Trip_KodPoezdki__c.includes("(HCP)")) {
+                this.fields.push("Trip_EventId__c", "Trip_HCPId__c");
+            }
+            if (this.record.Trip_KodPoezdki__c.includes("ГПХ")) {
+                this.fields.push("Trip_DogovorName__c", "Trip_DogovorDate__c");
+            }
+            this.fields.push("Trip_Name__c", "Trip_City__c", "Trip_Phone__c");
+            if (this.record.Trip_KodPoezdki__c.includes("Треть")) {
+                this.fields.push("Trip_Birthdate__c", "Trip_Passport__c");
+            }
+            this.fields.push("Trip_TipKomandirovki__c", "Trip_CoC__c");
+            if (this.record.Trip_TipKomandirovki__c.includes("Foreign")) {
+                this.fields.push("Trip_TselKomandirovki__c");
+            }
+        }
         const event = new ShowToastEvent({
             title: 'Получили данные из листа поездок!',
             variant: 'success',
