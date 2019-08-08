@@ -20,11 +20,17 @@
         <template if:true={isCreation}>
             <lightning-record-edit-form object-api-name="Trip__c" onsuccess={handleSuccess}>
                 <div class="slds-m-around_medium">
-                    <lightning-input-field variant="label-stacked" field-name="Trip_Company__c">
-                    </lightning-input-field>
-                    <lightning-input-field variant="label-stacked" field-name="Trip_KodPoezdki__c" value={code}
-                        data-name="code" onchange={handleChange}>
-                    </lightning-input-field>
+                    <lightning-layout>
+                        <lightning-layout-item class="slds-size_1-of-2">
+                            <lightning-input-field variant="label-stacked" field-name="Trip_Company__c">
+                            </lightning-input-field>
+                        </lightning-layout-item>
+                        <lightning-layout-item class="slds-size_1-of-2">
+                            <lightning-input-field variant="label-stacked" field-name="Trip_KodPoezdki__c" value={code}
+                                data-name="code" onchange={handleChange}>
+                            </lightning-input-field>
+                        </lightning-layout-item>
+                    </lightning-layout>
                     <!-- is HCP -->
                     <template if:true={isHCP}>
                         <lightning-layout>
@@ -54,12 +60,20 @@
                     <div class="slds-text-heading_small slds-m-around_medium">
                         <lightning-icon size="small" icon-name="utility:adduser"></lightning-icon> Passenger's details:
                     </div>
-                    <lightning-input-field variant="label-stacked" field-name="Trip_Name__c" value={name}>
-                    </lightning-input-field>
-                    <lightning-input-field variant="label-stacked" field-name="Trip_City__c">
-                    </lightning-input-field>
-                    <lightning-input-field variant="label-stacked" field-name="Trip_Phone__c">
-                    </lightning-input-field>
+                    <lightning-layout>
+                        <lightning-layout-item class="slds-size_1-of-3">
+                            <lightning-input-field variant="label-stacked" field-name="Trip_Name__c">
+                            </lightning-input-field>
+                        </lightning-layout-item>
+                        <lightning-layout-item class="slds-size_1-of-3">
+                            <lightning-input-field variant="label-stacked" field-name="Trip_City__c">
+                            </lightning-input-field>
+                        </lightning-layout-item>
+                        <lightning-layout-item class="slds-size_1-of-3">
+                            <lightning-input-field variant="label-stacked" field-name="Trip_Phone__c">
+                            </lightning-input-field>
+                        </lightning-layout-item>
+                    </lightning-layout>
                     <template if:true={is3rd}>
                         <lightning-layout>
                             <lightning-layout-item class="slds-size_1-of-2">
@@ -93,14 +107,16 @@
                     </template>
                 </div>
                 <lightning-button-group class="slds-align_absolute-center ">
-                    <button style="height: 45px" class="slds-button slds-button_brand slds-m-around_small" type="submit"
-                        disabled={isCreationDisabled} data-name="create">Create new</button>
+                    <button style="height: 45px" class="slds-button slds-button_brand slds-m-around_x-small"
+                        type="submit" disabled={isCreationDisabled} data-name="create">Create new</button>
                 </lightning-button-group>
             </lightning-record-edit-form>
             <lightning-button-group class="slds-align_absolute-center ">
-                <button style="height: 45px" class="slds-button slds-button_neutral slds-m-around_small"
+                <button style="height: 45px" class="slds-button slds-button_neutral slds-m-around_x-small"
                     onclick={cancelAndClear} data-name="cancel">Cancel</button>
             </lightning-button-group>
         </template>
     </article>
+    <br />
+    <c-trip-list></c-trip-list>
 </template>

@@ -6,6 +6,24 @@
             "c/pubsub": [
                 "pubsub/pubsub.js"
             ],
+            "c/ticketCreator": [
+                "ticketCreator/ticketCreator.js"
+            ],
+            "c/ticketList": [
+                "ticketList/ticketList.js"
+            ],
+            "c/ticketListItem": [
+                "ticketListItem/ticketListItem.js"
+            ],
+            "c/transferCreator": [
+                "transferCreator/transferCreator.js"
+            ],
+            "c/transferList": [
+                "transferList/transferList.js"
+            ],
+            "c/transferListItem": [
+                "transferListItem/transferListItem.js"
+            ],
             "c/tripCreator": [
                 "tripCreator/tripCreator.js"
             ],

@@ -7,7 +7,6 @@ export default class TripCreator extends LightningElement {
     @track tip = '';
     @track isCreation = false;
     @wire(CurrentPageReference) pageRef;
-    @track name = "Enter your name";
     handleSuccess() {
         const event = new ShowToastEvent({
             title: 'Record Created',
@@ -15,7 +14,8 @@ export default class TripCreator extends LightningElement {
             message: ''
         });
         this.dispatchEvent(event);
-        fireEvent(this.pageRef, "refresh");
+        fireEvent(this.pageRef, "refreshTripList");
+        this.cancelAndClear();
     }
 
     handleChange(event) {

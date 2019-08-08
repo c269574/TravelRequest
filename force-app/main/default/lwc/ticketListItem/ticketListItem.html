@@ -1,0 +1,29 @@
+<template>
+    <template if:true={isDraft}>
+        <lightning-record-form density="comfy" columns="2" record-id={ticket.Id} object-api-name="Ticket__c"
+            fields={ticketfields} mode="view">
+        </lightning-record-form>
+        <button data-id={ticket.id} onclick={handleDelete}>Delete</button>
+    </template>
+
+    <template if:false={isDraft}>
+        <lightning-layout>
+            <lightning-layout-item class="slds-size_1-of-2">
+                <p><b>From</b> {ticket.Ticket_Point1__c} <b>to</b> {ticket.Ticket_Point2__c}</p>
+            </lightning-layout-item>
+            <lightning-layout-item class="slds-size_1-of-2">
+                <p><b>Date: </b> {ticket.Ticket_Date__c}, {ticket.Ticket_PrefferedTime__c}</p>
+            </lightning-layout-item>
+        </lightning-layout>
+        <lightning-layout>
+            <lightning-layout-item class="slds-size_1-of-2">
+                <p><b>Number</b> {ticket.Ticket_Number__c}. <b>Class:</b> {ticket.Ticket_Class__c}</p>
+            </lightning-layout-item>
+            <lightning-layout-item class="slds-size_1-of-2">
+                <p><b>Comment: </b> {ticket.Ticket_Comment__c}</p>
+            </lightning-layout-item>
+        </lightning-layout>
+        <hr>
+    </template>
+
+</template>

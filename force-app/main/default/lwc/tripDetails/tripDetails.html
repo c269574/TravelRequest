@@ -1,35 +1,184 @@
 <template>
-    <article class="slds-card">
+    <article class="slds-card slds-m-around_medium slds-p-around_medium">
+
         <div class="slds-card__header slds-grid">
             <header class="slds-media slds-media_center slds-has-flexi-truncate">
                 <div class="slds-media__figure">
                     <lightning-icon icon-name="utility:info"></lightning-icon>
                 </div>
                 <div class="slds-media__body">
-                    <h2 class="slds-card__header-title"> Travel Details </h2>
+                    <h2 class="slds-card__header-title"> Travel Details: {itemName}</h2>
                 </div>
             </header>
         </div>
-        <template if:false={record}>
+
+        <template if:false={trip.data}>
             <hr>
             <div class="slds-text-color_weak slds-m-around_medium">Choose travel request to view details.</div>
         </template>
-        <template if:true={record}>
+
+        <template if:true={trip.data}>
+            <lightning-button-group class="slds-align_absolute-center ">
+                <button style="height: 45px" disabled={isDraft} onclick={returnHandler} data-id={tripId} class="slds-button slds-button_neutral
+                    slds-m-around_x-small">
+                    <lightning-icon icon-name="utility:undo" size="xx-small"></lightning-icon> Вернуть в Черновик
+                </button>
+                <button style="height: 45px" disabled={isNotDraft} onclick={checkHandler} data-id={tripId} class="slds-button slds-button_neutral
+                    slds-m-around_x-small">
+                    <lightning-icon icon-name="utility:send" size="xx-small"></lightning-icon> Проверить бронирование
+                </button>
+
+            </lightning-button-group>
+
+            <template if:true={isCheck}>
+
+                <template if:false={isPozdnee}>
+                    <div class="slds-align_absolute-center slds-text-color_success slds-text-font_monospace">
+                        Не позднее бронирование! Можно отправлять
+                    </div>
+                    <lightning-button-group class="slds-align_absolute-center ">
+                        <button style="height: 45px" onclick={sendHandler} class="slds-button slds-button_neutral
+                    slds-m-around_x-small">
+                            <lightning-icon icon-name="utility:send" size="xx-small"></lightning-icon> Отправить на
+                            утверждение
+                        </button>
+                    </lightning-button-group>
+                </template>
+
+                <template if:true={isPozdnee}>
+                    <template if:false={isModal}>
+                        <div class="slds-align_absolute-center slds-text-color_destructive slds-text-font_monospace">
+                            Позднее бронирование! Пожалуйста, внесите информацию:
+                        </div>
+                        <lightning-button-group class="slds-align_absolute-center ">
+                            <button style="height: 45px" onclick={handleModal} data-id={tripId} class="slds-button slds-button_neutral
+                    slds-m-around_x-small">
+                                <lightning-icon icon-name="utility:send" size="xx-small"></lightning-icon> Внести
+                                детали и отправить
+                            </button>
+                        </lightning-button-group>
+                    </template>
+                    <template if:true={isModal}>
+                        <div style="height:640px">
+                            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+                                aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                                <div class="slds-modal__container">
+                                    <header class="slds-modal__header">
+                                        <div class="slds-text-color_destructive slds-text-font_monospace">
+                                            Позднее бронирование! Пожалуйста, внесите информацию:
+                                        </div>
+                                    </header>
+                                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                                        <lightning-record-edit-form object-api-name="Trip__c" record-id={tripId}
+                                            onsuccess={sendHandler}>
+                                            <div style="display:none">
+                                                <lightning-input-field variant="label-stacked"
+                                                    field-name="Trip_Vovremya__c">
+                                                </lightning-input-field>
+                                            </div>
+                                            <lightning-input-field variant="label-stacked"
+                                                field-name="Trip_PrichinaPozdnego__c">
+                                            </lightning-input-field>
+                                            <lightning-input-field variant="label-stacked"
+                                                field-name="Trip_ApproveDirector__c">
+                                            </lightning-input-field>
+                                            <lightning-input-field variant="label-stacked"
+                                                field-name="Trip_ManagerEmail__c">
+                                            </lightning-input-field>
+                                            <lightning-button class="slds-m-top_small slds-align_absolute-center"
+                                                variant="brand" type="submit" name="update"
+                                                label="Отправить на утверждение">
+                                            </lightning-button>
+                                        </lightning-record-edit-form>
+                                    </div>
+                                    <footer class="slds-modal__footer">
+                                        <button class="slds-button slds-button_neutral"
+                                            onclick={handleModal}>Cancel</button>
+                                    </footer>
+                                </div>
+                            </section>
+                            <div class="slds-backdrop slds-backdrop_open"></div>
+                        </div>
+                    </template>
+                </template>
+                <br /><br />
+            </template>
+
             <template if:true={isDraft}>
-                <lightning-record-form record-id={record.Id} object-api-name="Trip__c" fields={fields} columns="2"
-                    mode="view" onsuccess={handleSuccess}>
+                <lightning-record-form density="comfy" record-id={tripId} object-api-name="Trip__c"
+                    fields={tripDisplayedFields} columns="2" mode="view" onsuccess={handleSuccess}>
                 </lightning-record-form>
+
+                <lightning-button-group class="slds-align_absolute-center ">
+                    <template if:false={ticketCreation}>
+                        <button style="height: 45px;"
+                            class="slds-button slds-button_neutral slds-m-around_small slds-align_absolute-center"
+                            onclick={startTicketCreation}> Add ticket
+                        </button>
+                    </template>
+                    <template if:false={transferCreation}>
+                        <button style="height: 45px;"
+                            class="slds-button slds-button_neutral slds-m-around_small slds-align_absolute-center"
+                            onclick={startTransferCreation}> Add transfer
+                        </button>
+                    </template>
+                </lightning-button-group>
+
+                <template if:true={ticketCreation}>
+                    <c-ticket-creator trip={trip.data} onsuccess={refreshDetailsComponent}>
+                    </c-ticket-creator>
+                    <button onclick={refreshDetailsComponent}>Cancel</button>
+                </template>
+
+                <template if:true={transferCreation}>
+                    <c-transfer-creator trip={trip.data} onsuccess={refreshDetailsComponent}>
+                    </c-transfer-creator>
+                    <button onclick={refreshDetailsComponent}>Cancel</button>
+                </template>
+
             </template>
+
             <template if:false={isDraft}>
-                <lightning-record-form record-id={record.Id} object-api-name="Trip__c" fields={fields} columns="2"
-                    mode="readonly">
+                <lightning-record-form density="comfy" record-id={tripId} object-api-name="Trip__c"
+                    fields={tripDisplayedFields} columns="2" mode="readonly">
                 </lightning-record-form>
             </template>
+
+            <template if:true={isTickets}>
+                <div class="slds-card__header slds-grid">
+                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                        <div class="slds-media__figure">
+                            <lightning-icon icon-name="utility:page"></lightning-icon>
+                        </div>
+                        <div class="slds-media__body">
+                            <h2 class="slds-card__header-title"> Tickets [{countTickets}] </h2>
+                        </div>
+                    </header>
+                </div>
+                <c-ticket-list tickets={tickets}></c-ticket-list>
+            </template>
+
+            <template if:true={isTransfers}>
+                <div class="slds-card__header slds-grid">
+                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                        <div class="slds-media__figure">
+                            <lightning-icon icon-name="utility:page"></lightning-icon>
+                        </div>
+                        <div class="slds-media__body">
+                            <h2 class="slds-card__header-title"> Transfers [{countTransfers}] </h2>
+                        </div>
+                    </header>
+                </div>
+                <c-transfer-list transfers={transfers}>
+                </c-transfer-list>
+            </template>
+
             <lightning-button-group class="slds-align_absolute-center">
                 <button style="height: 45px;" class="slds-button slds-button_neutral slds-m-around_small"
                     onclick={closeHandler}>Cancel
                 </button>
             </lightning-button-group>
+
         </template>
     </article>
 </template>

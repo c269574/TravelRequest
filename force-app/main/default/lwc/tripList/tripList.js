@@ -1,19 +1,29 @@
-import { LightningElement, wire, track } from 'lwc';
+import {
+    LightningElement,
+    wire
+} from 'lwc';
 import getTrips from '@salesforce/apex/tripController.getTrips';
-import { registerListener, unregisterAllListeners } from 'c/pubsub';
-import { CurrentPageReference } from 'lightning/navigation';
-import { refreshApex } from '@salesforce/apex';
+import {
+    registerListener,
+    unregisterAllListeners
+} from 'c/pubsub';
+import {
+    CurrentPageReference
+} from 'lightning/navigation';
+import {
+    refreshApex
+} from '@salesforce/apex';
 export default class TripList extends LightningElement {
-    @track count = 0;
+
     @wire(CurrentPageReference) pageRef;
     @wire(getTrips) trips;
     connectedCallback() {
-        registerListener('refresh', this.handleUpdate, this);
+        registerListener('refreshTripList', this.handleRefreshTripList, this);
     }
     disconnectedCallback() {
         unregisterAllListeners(this);
     }
-    handleUpdate() {
+    handleRefreshTripList() {
         return refreshApex(this.trips);
     }
 }

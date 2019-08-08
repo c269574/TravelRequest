@@ -1,0 +1,10 @@
+<template>
+    <template if:true={transfers.data}>
+        <template for:each={transfers.data} for:item="transfer" class="slds-m-around_small">
+            <!-- <div key={transfer.Id} style="border:1px solid lightgray; border-radius: 1%; width: 90%; margin: 0 auto; "> -->
+            <div key={transfer.Id}>
+                <c-transfer-list-item transfer={transfer}> </c-transfer-list-item>
+            </div>
+        </template>
+    </template>
+</template>

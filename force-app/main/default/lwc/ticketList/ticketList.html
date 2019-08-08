@@ -1,0 +1,10 @@
+<template>
+    <template if:true={tickets.data}>
+        <template for:each={tickets.data} for:item="ticket" class="slds-m-around_small">
+            <div key={ticket.Id}>
+                <c-ticket-list-item ticket={ticket}>
+                </c-ticket-list-item>
+            </div>
+        </template>
+    </template>
+</template>

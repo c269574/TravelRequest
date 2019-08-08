@@ -1,0 +1,26 @@
+<template>
+
+    <template if:true={isDraft}>
+        <lightning-record-form density="comfy" columns="2" record-id={transfer.Id} object-api-name="Transfer__c"
+            fields={transferfields} mode="view"> </lightning-record-form>
+        <button data-id={transfer.id} onclick={handleDelete}>Delete</button>
+    </template>
+
+    <template if:false={isDraft}>
+        <lightning-layout>
+            <lightning-layout-item class="slds-size_1-of-3">
+                <p><b>From / To </b>{transfer.Transfer_FromTo__c} </p>
+            </lightning-layout-item>
+            <lightning-layout-item class="slds-size_1-of-3">
+                <p><b>Date, time: </b>
+                    <lightning-formatted-date-time value={transfer.Transfer_DateTime__c} year="2-digit" month="numeric"
+                        day="numeric" hour="2-digit" minute="2-digit">
+                    </lightning-formatted-date-time>
+                </p>
+            </lightning-layout-item>
+            <lightning-layout-item class="slds-size_1-of-3">
+                <p><b>Comment: </b>{transfer.Transfer_Comment__c}</p>
+            </lightning-layout-item>
+        </lightning-layout>
+    </template>
+</template>

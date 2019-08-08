@@ -15,9 +15,10 @@
             <lightning-layout multiple-rows="true">
                 <template for:each={trips.data} for:item="trip">
                     <lightning-layout-item size="12" small-device-size="12" medium-device-size="12"
-                        large-device-size="6" key={trip.Id} flexibility="auto" padding="around-small">
+                        large-device-size="3" key={trip.Id} flexibility="auto" padding="around-small">
                         <div class="custom-box slds-box   elementBack">
-                            <c-trip-list-item record={trip} onrefresh={handleUpdate}></c-trip-list-item>
+                            <c-trip-list-item record={trip} onrefresh={handleRefreshTripList}>
+                            </c-trip-list-item>
                         </div>
                     </lightning-layout-item>
                 </template>
